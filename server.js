@@ -24,3 +24,6 @@ app.get("/api-key", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+//Don't forget to create a .env file in the root directory of your project and add the following line to it:
+//VIRUS_TOTAL_API_KEY=your-api-key

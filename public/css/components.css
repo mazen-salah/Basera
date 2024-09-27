@@ -1,0 +1,60 @@
+/* components.css */
+.card {
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.95);
+    width: 100%;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+  
+  .btn-gradient-primary,
+  .btn-gradient-info,
+  .btn-gradient-danger {
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+    font-size: 1rem;
+    width: 100%;
+  }
+  
+  .btn-gradient-primary {
+    background: linear-gradient(45deg, #0056b3, #00d2ff);
+  }
+  
+  .btn-gradient-info {
+    background: linear-gradient(45deg, #117a8b, #00c3ff);
+  }
+  
+  .btn-gradient-danger {
+    background: linear-gradient(45deg, #c82333, #ff6f61);
+  }
+  
+  .btn-gradient-primary:hover,
+  .btn-gradient-info:hover,
+  .btn-gradient-danger:hover {
+    transform: scale(1.05);
+  }
+  
+  .list-group-item {
+    font-size: 1rem;
+    background: transparent;
+  }
+  
+  .logo-img {
+    max-height: 10vh;
+    margin: 0 auto;
+    display: block;
+  }
+  
+  .command-list {
+    text-align: right;
+    
+  }

@@ -1,0 +1,14 @@
+/* responsive.css */
+@media (max-width: 768px) {
+    main {
+      flex-direction: column;
+    }
+  
+    .col-lg-6 {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+}
+
+/* end of media query */
+  

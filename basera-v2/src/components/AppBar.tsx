@@ -1,7 +1,8 @@
+"use client"; // Add this line to mark this as a Client Component
+
 import React, { useState } from 'react';
 import { FaMicrophone, FaMicrophoneSlash } from 'react-icons/fa';
 import Image from 'next/image';
-
 
 const AppBar = () => {
   const [muted, setMuted] = useState(true);

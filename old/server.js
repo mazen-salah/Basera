@@ -15,6 +15,10 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+app.get("/emergency", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "pages", "emergency.html"));
+});
+
 // API route to send the API key to the front-end
 app.get("/api-key", (req, res) => {
   res.json({ apiKey: API_KEY });

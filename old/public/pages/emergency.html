@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title>بصيرة</title>
+        <link rel="icon" type="image/png" href="img/favicon.png" />
+        <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="css/main.css" />
+    </head>
+    <body>
+        <div class="wrapper">
+            <div id="header"></div>
+            <main class="container-fluid my-3">
+                <div id="emergency-numbers" class="col-12 col-md-6"></div>
+            </main>
+            <div id="footer"></div>
+        </div>
+
+        <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true">
+            <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto" id="toast-title">Notification</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body" id="toast-body">Your message here.</div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <script type="module" src="js/sounds.js"></script>
+        <script type="module" src="js/ui.js"></script>
+        <script type="module" src="js/api.js"></script>
+        <script type="module" src="js/speechRecognition.js"></script>
+        <script type="module" src="js/events.js"></script>
+        <script type="module" src="js/urlChecker.js"></script>
+        <script type="module" src="js/main.js"></script>
+        <script type="module" src="js/loadHtml.js"></script>
+    </body>
+</html>

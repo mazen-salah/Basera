@@ -17,21 +17,219 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/main.css" />
+    <style>
+      /* General Styling */
+      body {
+        font-family: "Tajawal", sans-serif;
+        color: #333;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: auto;
+        padding-top: 40px;
+      }
+
+      /* Top Bar */
+      .top-bar {
+        width: 100%;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .top-bar img {
+        height: 40px;
+      }
+
+      .top-bar .mic-btn {
+        background-color: transparent;  
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+      }
+
+      .top-bar .mic-btn img {
+        width: 30px;
+        height: 30px;
+      }
+
+      /* Main Menu Styles */
+      .menu-title {
+        direction: rtl;
+        font-size: 36px;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 40px;
+        text-align: right;
+      }
+
+      /* Microphone Toggle Button */
+      #mic-toggle-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-size: 18px;
+        width: 200px;
+        margin: 0 auto 30px;
+        padding: 15px;
+        border-radius: 30px;
+        transition: background-color 0.3s, box-shadow 0.3s;
+      }
+
+      #mic-toggle-btn img {
+        width: 24px;
+        height: 24px;
+      }
+
+      #mic-toggle-btn:hover {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Menu Buttons */
+      .menu-btn {
+        width: 100%;
+        max-width: 700px;
+        height: 200px;
+        font-size: 30px;
+        padding: 15px 25px;
+        border-radius: 15px;
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        color: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .menu-btn img {
+        width: 60px;
+        height: 60px;
+      }
+
+      .menu-btn:hover {
+        background-color: #2980b9;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      .menu-row {
+        display: flex;
+        justify-content: space-around;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      /* Back Button */
+      .back-button {
+        margin-top: 20px;
+        border-radius: 30px;
+        transition: all 0.3s;
+      }
+
+      .back-button:hover {
+        background-color: #f39c12;
+        color: white;
+      }
+
+      /* Component Content */
+      .component {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+      }
+
+      .component.active {
+        display: block;
+        opacity: 1;
+      }
+
+      /* Responsive for smaller screens */
+      @media (max-width: 768px) {
+        .menu-row {
+          flex-direction: column;
+        }
+
+        #mic-toggle-btn {
+          width: 100%;
+        }
+
+        .top-bar img {
+          height: 35px;
+        }
+
+        .top-bar .mic-btn {
+          font-size: 3rem;
+        }
+
+        .top-bar .mic-btn img {
+          width: 30px;
+          height: 30px;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div class="wrapper">
-      <div id="header"></div>
-      <main class="container-fluid my-3">
-        <div class="row g-2">
-          <div id="website-safety" class="col-12 col-md-6"></div>
-          <div id="voice-command" class="col-12 col-md-6"></div>
-          <div id="gov-links" class="col-12 col-md-6"></div>
-          <div id="emergency-numbers" class="col-12 col-md-6"></div>
-        </div>
-      </main>
-      <div id="footer"></div>
+    <!-- Top Bar with Logo and Mic Button -->
+    <div class="top-bar">
+      <button class="mic-btn">
+        <img id="top-mic-icon" src="img/mic-muted.png" alt="Mic Icon" />
+      </button>
+      <img src="img/logo.png" alt="Logo" />
+      <h1 class="menu-title"
+      >Basera</h1>
     </div>
 
+    <!-- Main Content -->
+    <div class="wrapper">
+      <!-- Main Menu -->
+      <main class="container my-3">
+        <h1 class="menu-title">
+          أهلا بك في بصيرة
+          <br />
+          منصة الكترونية تساعد ذوي الاعاقة البصرية فحص الروابط للتأكد من سلامتها
+        </h1>
+        <div id="main-menu" class="menu active">
+          <div class="menu-row">
+            <!-- Button 1: Check Links -->
+            <button id="check-links-btn" class="btn btn-primary menu-btn">
+              <img src="img/link.png" alt="Link Icon" />
+              فحص الروابط
+              <img src="img/right-arrow.png" alt="Arrow Icon" />
+            </button>
+
+            <!-- Button 2: Platforms for Visually Impaired -->
+            <button id="platforms-btn" class="btn btn-secondary menu-btn">
+              <img src="img/cross-platform.png" alt="Platform Icon" />
+              منصات تدعم ذوي الاعاقة البصرية
+              <img src="img/right-arrow.png" alt="Arrow Icon" />
+            </button>
+          </div>
+        </div>
+
+        <!-- Component 1: Website Safety Checker -->
+        <div id="website-safety" class="component">
+          <h2>فحص الروابط</h2>
+          <!-- Component content goes here -->
+        </div>
+
+        <!-- Component 2: Platforms for the Visually Impaired -->
+        <div id="platforms-support" class="component">
+          <h2>منصات تدعم ذوي الاعاقة البصرية</h2>
+          <!-- Component content goes here -->
+        </div>
+
+        <!-- Back Button -->
+        <button id="back-button" class="btn btn-outline-primary back-button">
+          عودة إلى القائمة الرئيسية
+        </button>
+      </main>
+    </div>
+
+    <!-- Toast Container -->
     <div
       id="toast-container"
       class="toast-container"
@@ -67,5 +265,60 @@
     <script type="module" src="js/urlChecker.js"></script>
     <script type="module" src="js/main.js"></script>
     <script type="module" src="js/loadHtml.js"></script>
+
+    <script>
+      // Centralized view switching
+      function switchView(activeComponent) {
+        const components = document.querySelectorAll(".component");
+        components.forEach((component) => {
+          component.classList.remove("active");
+        });
+        activeComponent.classList.add("active");
+
+        // Show/Hide Back Button based on the view
+        if (activeComponent.id !== "main-menu") {
+          backButton.style.display = "block";
+        } else {
+          backButton.style.display = "none";
+        }
+      }
+
+      // JavaScript to handle microphone button
+      const micBtn = document.querySelector(".mic-btn");
+      const micIcon = document.getElementById("top-mic-icon");
+
+      micBtn.addEventListener("click", () => {
+        if (micIcon.src.includes("mic-muted")) {
+          micIcon.src = "img/mic.png";
+        } else {
+          micIcon.src = "img/mic-muted.png";
+        }
+      });
+
+      // Initialize Buttons and Event Listeners
+      const mainMenu = document.getElementById("main-menu");
+      const backButton = document.getElementById("back-button");
+      const websiteSafetyComponent = document.getElementById("website-safety");
+      const platformsSupportComponent =
+        document.getElementById("platforms-support");
+
+      const checkLinksBtn = document.getElementById("check-links-btn");
+      const platformsBtn = document.getElementById("platforms-btn");
+
+      checkLinksBtn.addEventListener("click", () => {
+        switchView(websiteSafetyComponent);
+      });
+
+      platformsBtn.addEventListener("click", () => {
+        switchView(platformsSupportComponent);
+      });
+
+      backButton.addEventListener("click", () => {
+        switchView(mainMenu);
+      });
+
+      // Initialize the main menu view
+      switchView(mainMenu);
+    </script>
   </body>
 </html>

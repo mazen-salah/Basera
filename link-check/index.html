@@ -159,7 +159,7 @@
         "4d24fa3586753c5e57e9784d08b572e73e33fb3de91960144ba10559a03efe0c";
 
       // Fetch Analysis ID
-      export async function fetchAnalysisId(url) {
+      async function fetchAnalysisId(url) {
         const options = {
           method: "POST",
           headers: {
@@ -170,17 +170,22 @@
           body: new URLSearchParams({ url }),
         };
 
-        const response = await fetch(`${API_BASE_URL}/urls`, options);
-        if (!response.ok) {
-          const data = await response.json();
-          throw new Error("Error fetching URL analysis: " + data.message);
-        }
+        try {
+          const response = await fetch(`${API_BASE_URL}/urls`, options);
+          if (!response.ok) {
+            const data = await response.json();
+            throw new Error(`Error fetching URL analysis: ${data.message}`);
+          }
 
-        return (await response.json()).data.id;
+          return (await response.json()).data.id;
+        } catch (error) {
+          console.error("Fetch error:", error);
+          throw error; // Re-throw for higher-level handling
+        }
       }
 
       // Fetch Analysis Result
-      export async function fetchAnalysisResult(analysisId) {
+      async function fetchAnalysisResult(analysisId) {
         const options = {
           method: "GET",
           headers: {

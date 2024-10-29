@@ -1,0 +1,76 @@
+/* Custom styles for the card */
+:root {
+    --primary-gradient: linear-gradient(45deg, #72dfe6, #1d4fb1);
+    --primary-gradient-hover: linear-gradient(45deg, #1d4fb1, #72dfe6);
+    --card-padding: 25px 30px; /* Adjusted for better internal spacing */
+    --card-border-radius: 15px;
+    --text-color: #ffffff;
+}
+
+body {
+    font-family: "Almarai", sans-serif;
+    margin: 0;
+}
+
+.custom-card {
+    background: linear-gradient(45deg, #72dfe6, #1d4fb1);
+    color: white;
+    border: none;
+    border-radius: var(--card-border-radius);
+    text-align: right; /* Align text to the right */
+    display: flex;
+    flex-direction: column;
+    height: 470px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+    align-items: center; /* Center the logo */
+}
+
+.custom-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.custom-card .logo {
+    width: auto;
+    height: 42px;  
+    margin: 20px auto 0; /* Center the logo */
+}
+
+.custom-card .card-body {
+    flex: 1;
+    padding: var(--card-padding);
+}
+
+.custom-card .card-footer {
+    background: transparent;
+    border-top: none;
+    margin-top: auto;
+}
+
+/* Refactored font sizes using rem */
+.card-title {
+    font-size: 1.875rem; /* 30pt (approximately 1.875rem) */
+    margin-bottom: 1rem; /* 15px (approximately 1rem) */
+    text-align: right; /* Align title text to the right */
+}
+
+.card-text {
+    font-size: 1rem; /* 16pt (approximately 1rem) */
+    text-align: right; /* Align text to the right */
+}
+
+/* Ensure all cards have the same height */
+.card-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Adjust for better mobile responsiveness */
+@media (max-width: 768px) {
+    .custom-card {
+        margin-bottom: 20px;
+    }
+}

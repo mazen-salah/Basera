@@ -1,0 +1,110 @@
+/* Add the Almarai font classes */
+.almarai-light {
+  font-family: "Almarai", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.almarai-regular {
+  font-family: "Almarai", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.almarai-bold {
+  font-family: "Almarai", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.almarai-extrabold {
+  font-family: "Almarai", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+/* Update the body to use Almarai font */
+body {
+  font-family: "Almarai", sans-serif;
+  height: 100vh;
+  background: linear-gradient(45deg, black, #1d4fb1);
+  background-image: url("./assets/background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 0;
+}
+
+.app-bar,
+.nav-bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px 20px;
+}
+
+.app-bar {
+  color: white;
+  justify-content: space-between;
+}
+
+.app-bar .logo {
+  height: 80px;
+  width: auto;
+}
+
+.app-bar .controls {
+  display: flex;
+  align-items: center;
+}
+
+.app-bar .controls button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  margin: 0 15px;
+  cursor: pointer;
+  outline: none;
+  transition: color 0.3s ease;
+}
+
+.app-bar .controls button:hover {
+  color: #1d4fb1;
+}
+
+.nav-bar {
+  justify-content: center;
+}
+
+.nav-bar button,
+.nav-bar .profile-icon,
+.nav-bar .options-icon {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  margin: 0 15px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.nav-bar button:hover,
+.nav-bar .profile-icon:hover,
+.nav-bar .options-icon:hover {
+  color: #1d4fb1;
+}
+
+.nav-bar input {
+  padding: 8px;
+  margin: 0 15px;
+  border: none;
+  width: 800px;
+  border-radius: 20px;
+  outline: none;
+  transition: border 0.3s;
+}
+
+.nav-bar input:focus {
+  border: 2px solid #1d4fb1;
+}

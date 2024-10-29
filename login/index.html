@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration and Login Form</title>
+  <style>
+    /* Reset and Basic Styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #0a2e5d, #0c1a5f);
+    }
+    
+    /* Container Styling */
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      padding: 40px 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      animation: fadeIn 0.6s ease;
+    }
+    
+    /* Header Styling */
+    h2 {
+      margin-bottom: 20px;
+      font-size: 1.8em;
+      color: #1a73e8;
+      position: relative;
+    }
+    h2::after {
+      content: "";
+      position: absolute;
+      width: 60px;
+      height: 3px;
+      background-color: #1a73e8;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* Form Group Styling */
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .form-group label {
+      font-size: 0.9em;
+      color: #333;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1em;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    .form-group input:focus {
+      border-color: #1a73e8;
+      box-shadow: 0 4px 8px rgba(26, 115, 232, 0.2);
+    }
+
+    /* Button Styling */
+    .btn {
+      background-color: #1a73e8;
+      color: #fff;
+      padding: 12px;
+      width: 100%;
+      font-size: 1.1em;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s;
+    }
+    .btn:hover {
+      background-color: #164da6;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(26, 115, 232, 0.3);
+    }
+
+    /* Switch Link */
+    .switch {
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #1a73e8;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .switch:hover {
+      color: #0f4a94;
+      text-decoration: underline;
+    }
+
+    /* Message Styling */
+    .message {
+      margin-top: 20px;
+      font-size: 1em;
+      font-weight: bold;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 id="form-title">Register</h2>
+    <div id="form-content">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" required>
+      </div>
+      <button class="btn" onclick="handleSubmit()">Register</button>
+      <div class="switch" onclick="toggleForm()">Already have an account? Log in</div>
+      <div id="message" class="message"></div>
+    </div>
+  </div>
+
+  <script>
+    // Virtual database array
+    const users = [];
+
+    // Form state (true for login, false for registration)
+    let isLogin = false;
+
+    function toggleForm() {
+      isLogin = !isLogin;
+      document.getElementById("form-title").innerText = isLogin ? "Login" : "Register";
+      document.querySelector(".btn").innerText = isLogin ? "Login" : "Register";
+      document.querySelector(".switch").innerText = isLogin ? "Don't have an account? Register" : "Already have an account? Log in";
+      document.getElementById("message").innerText = "";
+      document.getElementById("username").value = "";
+      document.getElementById("password").value = "";
+    }
+
+    function handleSubmit() {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const messageElem = document.getElementById("message");
+
+      if (!username || !password) {
+        messageElem.style.color = "red";
+        messageElem.innerText = "Please fill in all fields.";
+        return;
+      }
+
+      if (isLogin) {
+        // Login functionality
+        const user = users.find(user => user.username === username && user.password === password);
+        if (user) {
+          messageElem.style.color = "green";
+          messageElem.innerText = `Welcome back, ${username}! Redirecting...`;
+          setTimeout(() => {
+            window.location.href = "index.html"; // Redirect to index.html
+          }, 1000);
+        } else {
+          messageElem.style.color = "red";
+          messageElem.innerText = "Invalid username or password.";
+        }
+      } else {
+        // Registration functionality
+        if (users.some(user => user.username === username)) {
+          messageElem.style.color = "red";
+          messageElem.innerText = "Username already exists.";
+        } else {
+          users.push({ username, password });
+          messageElem.style.color = "green";
+          messageElem.innerText = "Registration successful! Redirecting to login...";
+          setTimeout(() => {
+            toggleForm(); // Switch to login form
+          }, 1000);
+        }
+      }
+    }
+  </script>
+</body>
+</html>

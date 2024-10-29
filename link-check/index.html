@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>فاحص الروابط</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+    <style>
+      /* Input Field */
+      #url-check {
+        background: linear-gradient(135deg, #007bff, #00c4ff);
+        color: white;
+        border: none;
+        border-radius: 40px;
+        text-align: right;
+        padding: 30px;
+        font-size: 1.2em;
+        margin-top: 120px;
+      }
+      #url-check:focus {
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      }
+      /* Buttons */
+      #check-url-button,
+      #voice-button {
+        background: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      #check-url-button {
+        border-radius: 8px;
+        padding: 15px 30px;
+        font-size: 1.2em;
+      }
+      #voice-button {
+        border-radius: 50%;
+        padding: 15px;
+        margin-left: 10px;
+        font-size: 1.5em;
+        position: relative;
+      }
+      #check-url-button:focus,
+      #voice-button:focus {
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      }
+      #voice-button.listening {
+        animation: pulse 0.7s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.15);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* Ring Animation */
+      #voice-button.listening::after {
+        content: "";
+        position: absolute;
+        top: -12px;
+        left: -12px;
+        width: calc(100% + 24px);
+        height: calc(100% + 24px);
+        border: 3px solid #007bff;
+        border-radius: 50%;
+        animation: ring 1.5s infinite;
+      }
+      @keyframes ring {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(2);
+          opacity: 0;
+        }
+      }
+      /* Loading Spinner */
+      .spinner-border {
+        display: none;
+      }
+      .spinner-border.show {
+        display: inline-block;
+      }
+      /* URL Status Display */
+      #url-status {
+        margin-top: 20px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="template"></div>
+    <div class="container text-center">
+      <div class="d-flex flex-column align-items-center mb-3">
+        <input
+          type="text"
+          id="url-check"
+          class="form-control mb-2"
+          placeholder="أدخل الرابط هنا"
+          aria-label="URL Input"
+        />
+        <div>
+          <button
+            id="check-url-button"
+            class="btn btn-primary"
+            aria-label="فحص الرابط"
+            title="فحص الرابط"
+          >
+            فحص
+          </button>
+          <button
+            id="voice-button"
+            class="fas fa-microphone"
+            aria-label="Voice Input"
+            title="تفعيل الإدخال الصوتي"
+          ></button>
+        </div>
+      </div>
+      <div
+        id="loading-spinner"
+        class="spinner-border text-primary mt-3"
+        role="status"
+      >
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div id="url-status" class="mt-3" role="alert"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="module">
+      import { fetchAnalysisId, fetchAnalysisResult } from "./api.js";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        document
+          .getElementById("check-url-button")
+          .addEventListener("click", () => checkUrl());
+        document
+          .getElementById("voice-button")
+          .addEventListener("click", startVoiceRecognition);
+        document.addEventListener("keydown", (event) => {
+          if (event.code === "Space") {
+            event.preventDefault();
+            startVoiceRecognition();
+          }
+        });
+      });
+
+      async function checkUrl(url = null) {
+        const urlInput = document.getElementById("url-check");
+        const urlToCheck = url || urlInput.value.trim();
+        if (!urlToCheck) return alert("الرجاء إدخال رابط لفحصه");
+
+        toggleLoading(true);
+        clearStatus();
+
+        try {
+          const analysisId = await fetchAnalysisId(urlToCheck);
+          const analysisData = await fetchAnalysisResult(analysisId);
+          displayUrlCheckResult(analysisData);
+          const status = analysisData.data.attributes.stats.malicious > 0 ? "خبيث" : "آمن";
+          await saveToHistory(urlToCheck, status);
+        } catch (error) {
+          console.error("Error:", error);
+          await playAlert();
+          alert("حدث خطأ أثناء فحص الرابط");
+        } finally {
+          toggleLoading(false);
+        }
+      }
+
+      function toggleLoading(isLoading) {
+        document
+          .getElementById("loading-spinner")
+          .classList.toggle("show", isLoading);
+      }
+
+      function clearStatus() {
+        document.getElementById("url-status").innerHTML = "";
+      }
+
+      async function playAlert() {
+        const audio = new Audio("./sounds/alert.mp3");
+        try {
+          await audio.play();
+        } catch (error) {
+          console.error("Audio playback error:", error);
+        }
+      }
+
+      function displayUrlCheckResult(data) {
+        const { stats } = data.data.attributes;
+        const totalDetections = stats.malicious + stats.suspicious;
+        const isMalicious = totalDetections > 0;
+
+        const message = isMalicious
+          ? `تحذير! الموقع قد يكون خبيثًا. تم الإبلاغ عنه كخبيث من قبل ${stats.malicious} خدمات و مشبوه من قبل ${stats.suspicious} خدمات.`
+          : "الموقع آمن.";
+        const title = isMalicious ? "تحذير!" : "أمان الموقع";
+
+        document.getElementById("url-status").innerHTML = `
+        <div class="alert ${
+          isMalicious ? "alert-danger" : "alert-success"
+        }" role="alert">
+          <h4 class="alert-heading">${title}</h4>
+          <p>${message}</p>
+        </div>
+      `;
+        if (isMalicious) playAlert();
+        speakText(message);
+      }
+
+      function startVoiceRecognition() {
+        const voiceButton = document.getElementById("voice-button");
+        const recognition = new (window.SpeechRecognition ||
+          window.webkitSpeechRecognition)();
+        recognition.lang = "ar-SA";
+
+        recognition.onstart = async () => {
+          voiceButton.classList.add("listening");
+          const startSound = new Audio("./sounds/start.mp3");
+          try {
+            await startSound.play();
+          } catch (error) {
+            console.error("Audio playback error:", error);
+          }
+        };
+        recognition.onend = () => voiceButton.classList.remove("listening");
+
+        recognition.onresult = (event) => {
+          const command = event.results[0][0].transcript.trim();
+          if (
+            command.includes("الموقع") ||
+            command.includes("الرابط") ||
+            command.includes("فحص") ||
+            command.includes("التحقق") ||
+            command.includes("التأكد") ||
+            command.includes("التحقق من الموقع") ||
+            command.includes("التأكد من الموقع") ||
+            command.includes("التحقق من الرابط") ||
+            command.includes("التأكد من الرابط")
+          ) {
+            navigator.clipboard.readText().then((clipboardText) => {
+              document.getElementById("url-check").value = clipboardText;
+              checkUrl(clipboardText);
+            });
+          } else {
+            alert("أمر غير معروف. حاول قول 'فحص الرابط'. لقد قلت: " + command);
+          }
+        };
+
+        recognition.start();
+      }
+
+      async function saveToHistory(url, status) {
+        //save the history to the local storage
+        let history = JSON.parse(localStorage.getItem("history")) || [];
+        history.unshift({ url, status, date: new Date().toLocaleString() });
+        localStorage.setItem("history", JSON.stringify(history));
+      }
+    </script>
+    <script src="../app.js"></script>
+  </body>
+</html>
+<div class="container mt-5">
+  <h2 class="text-right">سجل الفحص</h2>
+  <ul id="history-list" class="list-group"></ul>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    loadHistory();
+  });
+
+  function loadHistory() {
+    const historyList = document.getElementById("history-list");
+    const history = JSON.parse(localStorage.getItem("history")) || [];
+    historyList.innerHTML = "";
+
+    history.forEach((entry) => {
+      const listItem = document.createElement("li");
+      listItem.className = "list-group-item";
+      listItem.textContent = `${entry.url} - ${entry.status} - ${entry.date}`;
+      historyList.appendChild(listItem);
+    });
+  }
+</script>

@@ -1,27 +1,38 @@
-// server.js
-require("dotenv").config();
 const express = require("express");
 const path = require("path");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-const API_KEY = process.env.VIRUS_TOTAL_API_KEY;
+const PORT = 3000;
 
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, "public")));
+// Serve static files in the root (like styles.css and app.js)
+app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, "home")));
+app.use(express.static(path.join(__dirname, "platforms")));
+app.use(express.static(path.join(__dirname, "link-check")));
 
-// Route to serve the index.html file
+// Serve static files for each directory
+app.use("/home", express.static(path.join(__dirname, "home")));
+app.use("/platforms", express.static(path.join(__dirname, "platforms")));
+app.use("/link-check", express.static(path.join(__dirname, "link-check")));
+
+
+// Route to home page
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "home", "index.html"));
 });
 
-app.get("/emergency", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "pages", "emergency.html"));
+// Route to platforms page
+app.get("/platforms", (req, res) => {
+  res.sendFile(path.join(__dirname, "platforms", "index.html"));
 });
 
-// API route to send the API key to the front-end
-app.get("/api-key", (req, res) => {
-  res.json({ apiKey: API_KEY });
+// Route to link-check page
+app.get("/link-check", (req, res) => {
+  res.sendFile(path.join(__dirname, "link-check", "index.html"));
+});
+
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "login", "index.html"));
 });
 
 // Start the server
@@ -29,5 +40,3 @@ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-//Don't forget to create a .env file in the root directory of your project and add the following line to it:
-//VIRUS_TOTAL_API_KEY=your-api-key
